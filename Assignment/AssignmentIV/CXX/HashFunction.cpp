@@ -8,16 +8,42 @@
 
    Development History:
     - 2025/11/11: Initial implementation from prof. Huang
-    - 2025/11/17: update developer information
+    - 2025/11/17: Update developer information,
+                  Initial implement of myHashInt() by two method
    
 
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */
 #include <string>
+using namespace std;
 
 int myHashInt(int key, int m) {
-    // TODO: replace with your own design
+    /*
+    //method 1: Basic - Division Method (Formula: h(k) = k mod m)
+
     return key % m;  // basic division method
+    */
+    /**/
+    //method 2: Advance - Mid Square Method 
+    //Square the value of the key
+    long long squareKey = key * key;
+  
+    //Calculate the number of digits in a square.
+    int numDigits = 0;  
+    long long temp = squareKey;
+    while (temp > 0) {
+        temp /= 10;
+        numDigits++;
+    }
+
+    //Extract the middle digits as the value
+    string s = to_string(squareKey);
+    if (s.length() <= 2)  return squareKey % m;
+    string mid = s.substr(1, s.length() - 2);
+    long long midNum = stoll(mid);
+
+    return midNum % m;
+    
 }
 
 int myHashString(const std::string& str, int m) {
