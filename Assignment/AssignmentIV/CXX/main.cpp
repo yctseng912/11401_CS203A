@@ -10,8 +10,8 @@
 
    Development History:
     - 2025/11/11: Initial implementation
-
-   Developer: Yu-Feng Huang <yfhuang@saturn.yzu.edu.tw>
+    - 2025/11/17: update name and email of the developer
+   Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */
 
 #include <iostream>
