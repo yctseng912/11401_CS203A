@@ -10,6 +10,7 @@
     - 2025/11/11: Initial implementation from prof. Huang
     - 2025/11/17: Update developer information,
                   Initial implement of myHashInt() by two method
+                  Initial implement of myHashString()
    
 
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
@@ -23,6 +24,7 @@ int myHashInt(int key, int m) {
 
     return key % m;  // basic division method
     */
+   
     /**/
     //method 2: Advance - Mid Square Method 
     //Square the value of the key
@@ -48,6 +50,11 @@ int myHashInt(int key, int m) {
 
 int myHashString(const std::string& str, int m) {
     unsigned long hash = 0;
-    // TODO: replace with your own design
+
+    //Sumation of the ASCII values ​​of each character
+    for (char c : str) {
+        hash += static_cast<unsigned long>(c);  
+    }
+
     return static_cast<int>(hash % m);  // basic division method
 }
