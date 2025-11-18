@@ -12,6 +12,7 @@
     - 2025/11/17: Refactored to use hash_fn.h
                   Update developer information
     - 2025/11/18: Initial implementation of myHashInt(), myHashString()
+                  Add Fool-proof
 
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */
@@ -19,9 +20,17 @@
 #include "hash_fn.h"
 
 int myHashInt(int key, int m) {
+    if (m <= 0) return -1; // invalid table size
+    /*
     // method 1
-    // return key % m;  // division method example
+    int hv = key % m;   
+    if (hv < 0) hv += m; // make hv be positive
+        
+    return key % m;  // division method example
+    */
 
+    /**/
+    //method 2: Advance - Mid Square Method
     long long squareKey = (long long)key * (long long)key;
 
     // Count digits
