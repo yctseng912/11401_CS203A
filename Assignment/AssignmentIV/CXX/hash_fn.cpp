@@ -11,11 +11,12 @@
     - 2025/11/17: Update developer information,
                   Initial implement of myHashInt() by two method
                   Initial implement of myHashString()
+    - 2025/11/18: Refactored to use hash_fn.hpp
    
 
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */
-#include <string>
+#include "hash_fn.hpp"
 using namespace std;
 
 int myHashInt(int key, int m) {
