@@ -10,14 +10,15 @@
 
    Development History:
     - 2025/11/11: Initial implementation
-    - 2025/11/17: update name and email of the developer
+    - 2025/11/17: Update name and email of the developer
+    - 2025/11/18: Update the include filename
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */
 
 #include <iostream>
 #include <vector>
 #include <string>
-#include "HashFunction.cpp"
+#include "hash_fn.cpp"
 
 // Caution: Do not change the content of this file.
 
