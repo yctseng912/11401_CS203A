@@ -12,6 +12,7 @@
                   Initial implement of myHashInt() by two method
                   Initial implement of myHashString()
     - 2025/11/18: Refactored to use hash_fn.hpp
+                  Add Fool-proof
    
 
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
@@ -20,8 +21,15 @@
 using namespace std;
 
 int myHashInt(int key, int m) {
+
+    if (m <= 0) {
+        throw std::invalid_argument("Hash table size m must be positive.");
+    }
+
     /*
     //method 1: Basic - Division Method (Formula: h(k) = k mod m)
+    int hashValue = key % m;
+    if(hashValue < 0) hashValue += m;
 
     return key % m;  // basic division method
     */
@@ -51,6 +59,10 @@ int myHashInt(int key, int m) {
 
 int myHashString(const std::string& str, int m) {
     unsigned long hash = 0;
+
+    if (str.empty()) {
+        return 0;
+    }
 
     //Sumation of the ASCII values ​​of each character
     for (char c : str) {
