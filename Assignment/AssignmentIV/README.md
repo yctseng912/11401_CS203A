@@ -9,18 +9,46 @@ Email: s1121411@mail.yzu.edu.tw
 
 ## My Hash Function
 ### Integer Keys 
+- Method: Mid-Square Hashing
 - Formula / pseudocode:
   ```text
-  [Your implementation here]
+  Input: integer key, table size m
+  1. Compute the square of the key:
+         square = key * key
+  2. Convert the square into a decimal string.
+  3. If the number of digits ≤ 2:
+         return square mod m
+  4. Extract the middle digits by removing the first and last digit:
+         middle = substring(square_string, 1, length-2)
+  5. Convert middle substring back to integer.
+  6. Return middle mod m.
   ```
-- Rationale: [Explain your design choices and how they minimize collisions.]
-
+- Rationale:
+  - Breaks Sequential Patterns
+    - Division method maps sequential integers (21,22,23…) to sequential buckets → causes clustering.
+    - Middle square destroys this linearity by squaring the number first.
+  - Better Distribution for Similar Keys
+    - Keys like 21–30 and 51–60 look similar and cause predictable patterns under division.
+    - Squaring expands the value and changes the digit structure, improving randomness.
+  - Simple to Implement but More Effective
+    - No need for complicated math or bit operations.
+    - Just square the key, convert to string, and extract middle digits.
+ 
+  
 ### Non-integer Keys
+- Method: Sum of ASCII Values
 - Formula / pseudocode:
   ```text
-  [Your implementation here]
+  Input: string str, table size m
+  1. Initialize hash = 0
+  2. For each character c in str:
+         hash += ASCII value of c
+  3. Return hash mod m
   ```
-- Rationale: [Explain your approach and its effectiveness for non-integer keys.]
+- Rationale: 
+  - It is simple and effective for short strings.
+  - The sum of ASCII values reflects all characters in the string.
+  - The main design goal is to avoid using only the first character, because doing so would limit the hash to only 26 possible outcomes and cause many collisions (e.g., “cat”, “cow”, “car” would all collide).
 
 ## Experimental Setup
 - Table sizes tested (m): 10, 11, 37
@@ -31,9 +59,20 @@ Email: s1121411@mail.yzu.edu.tw
 - Standard: C23 and C++23
 
 ## Results
+### Integer Keys
+- method 1: Division
+  
 | Table Size (m) | Index Sequence         | Observation              |
 |----------------|------------------------|--------------------------|
-| 10             | 1, 2, 3, 4, ...        | Pattern repeats every 10 |
+| 10             | 1, 2, 3, 4, ...        | - Perfectly linear<br> - 21–30 & 51–60 collide into same buckets → huge clustering <br> - bad for sequential keys|
+| 11             | 10, 0, 1, 2, ...       | More uniform             |
+| 37             | 20, 21, 22, 23, ...    | Near-uniform             |
+
+- method 2: Mid-Square
+
+| Table Size (m) | Index Sequence         | Observation              |
+|----------------|------------------------|--------------------------|
+| 10             | 4, 8, 2, 7, ...        | - Non-linear <br> - 21–30 & 51–60 follow different patterns → clustering reduced|
 | 11             | 10, 0, 1, 2, ...       | More uniform             |
 | 37             | 20, 21, 22, 23, ...    | Near-uniform             |
 
