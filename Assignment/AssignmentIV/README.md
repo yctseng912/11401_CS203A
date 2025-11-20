@@ -14,13 +14,18 @@ Email: s1121411@mail.yzu.edu.tw
   ```text
   Input: integer key, table size m
   1. Compute the square of the key:
-         square = key * key
+        square = key * key
+
   2. Convert the square into a decimal string.
+
   3. If the number of digits ≤ 2:
-         return square mod m
+        return square mod m
+
   4. Extract the middle digits by removing the first and last digit:
-         middle = substring(square_string, 1, length-2)
+        middle = substring(square_string, 1, length-2)
+
   5. Convert middle substring back to integer.
+
   6. Return middle mod m.
   ```
 - Rationale:
@@ -41,8 +46,10 @@ Email: s1121411@mail.yzu.edu.tw
   ```text
   Input: string str, table size m
   1. Initialize hash = 0
+
   2. For each character c in str:
-         hash += ASCII value of c
+        hash += ASCII value of c
+
   3. Return hash mod m
   ```
 - Rationale: 
@@ -64,17 +71,25 @@ Email: s1121411@mail.yzu.edu.tw
   
 | Table Size (m) | Index Sequence         | Observation              |
 |----------------|------------------------|--------------------------|
-| 10             | 1, 2, 3, 4, ...        | - Perfectly linear<br> - 21–30 & 51–60 collide into same buckets → huge clustering <br> - bad for sequential keys|
-| 11             | 10, 0, 1, 2, ...       | More uniform             |
-| 37             | 20, 21, 22, 23, ...    | Near-uniform             |
+| 10             | 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, ,5 , 6, 7, 8, 9, 0 | <ul><li>Linear mapping</li><li>21–30 & 51–60 collide into same buckets → huge clustering</li><li>bad for sequential keys</li></ul> |
+| 11             | 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5| <ul><li>Better than m=10, but still purely linear</li><li>Both segments (21–30, 51–60) produce predictable linear sequences</li></ul>|
+| 37             | 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 | <ul><li>Low collisions only because 37 is large relative to the key range</li><li>Hash function itself remains weak; no randomness</li></ul>|
 
 - method 2: Mid-Square
 
 | Table Size (m) | Index Sequence         | Observation              |
 |----------------|------------------------|--------------------------|
-| 10             | 4, 8, 2, 7, ...        | - Non-linear <br> - 21–30 & 51–60 follow different patterns → clustering reduced|
-| 11             | 10, 0, 1, 2, ...       | More uniform             |
-| 37             | 20, 21, 22, 23, ...    | Near-uniform             |
+| 10             | 4, 8, 2, 7, 2, 7, 2, 8, 4, 0, 0, 0, 0, 1, 2, 3, 4, 6, 8, 0 | <ul><li>Non-linear distribution</li><li>21–30 and 51–60 show different patterns</li><li>Collisions exist but are non-structural</li></ul>|
+| 11             | 4, 8, 2, 7, 2, 7, 2, 8, 4, 0, 5, 4, 3, 3, 2, 2, 2, 3, 4, 5 | <ul><li>Well-dispersed and balanced</li><li>Collisions exist but unpredictable</li><li>sequential key segments uncorrelated</li></ul>|
+| 37             | 4, 8, 2, 7, 2, 7, 2, 8, 4, 0, 23, 33, 6, 17, 2, 13, 24, 36, 11, 23| <ul><li>Non-linear, very spread</li><li>Larger m enhances randomness from the mid-square operation</li></ul> |
+
+### Non-integer Keys
+
+| Table Size (m) | Index Sequence         | Observation              |
+|----------------|------------------------|--------------------------|
+| 10             | 2, 4, 1, 9, 3, 8, 0, 5, 0, 3 | <ul><li>Small modulus range → many collisions;</li><li>uneven distribution</li></ul>|
+| 11             | 4, 6, 3, 10, 4, 8, 3, 7, 1, 3 | <ul><li>Slight improvement, but ASCII-sum weaknesses remain → multiple collisions</li><li>weak randomness</li></ul>|
+| 10             | 16, 18, 15, 33, 27, 5, 4, 19, 24, 0 | <ul><li>No collisions, but only because the table is large</li></ul>|
 
 ## Compilation, Build, Execution, and Output
 
