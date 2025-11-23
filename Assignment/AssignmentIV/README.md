@@ -160,16 +160,12 @@ Email: s1121411@mail.yzu.edu.tw
 
 <br>
 
-
-
 - C Version — strings
   <br>
-  === Hash Function Observation (C Version) ===
   <img width="206" height="579" alt="截圖 2025-11-23 下午3 08 52" src="https://github.com/user-attachments/assets/e414b8f7-426a-4d03-a0b7-eb2b14aaccc7" />
   <br>
 - C++ Version — strings
   <br>
-  === Hash Function Observation (C++ Version) ===
   <img width="205" height="580" alt="截圖 2025-11-23 下午3 09 35" src="https://github.com/user-attachments/assets/052ca652-600a-47ce-9ad0-67ca59f09c0e" />
 
 ## Analysis
@@ -235,7 +231,10 @@ If I were to improve my design, I would consider:
 
 - Selecting different hash methods based on key type and table size to optimize overall hash table performance.
 
+Overall, the experiment shows that the choice of hash function affects randomness more significantly than the table size itself.
+
 ## Reference
+- Course PowerPoint
 - Mid Square Method: https://www.geeksforgeeks.org/dsa/mid-square-hashing/
 
 - ASCII-sum hashing: https://research.cs.vt.edu/AVresearch/hashing/strings.php
