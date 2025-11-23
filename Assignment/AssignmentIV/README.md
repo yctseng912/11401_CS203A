@@ -83,7 +83,7 @@ Email: s1121411@mail.yzu.edu.tw
   
 | Table Size (m) | Index Sequence         | Observation              |
 |----------------|------------------------|--------------------------|
-| 10             | 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, ,5 , 6, 7, 8, 9, 0 | <ul><li>Linear mapping</li><li>21–30 & 51–60 collide into same buckets → huge clustering</li><li>bad for sequential keys</li></ul> |
+| 10             | 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 | <ul><li>Linear mapping</li><li>21–30 & 51–60 collide into same buckets → huge clustering</li><li>bad for sequential keys</li></ul> |
 | 11             | 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5| <ul><li>Better than m=10, but still purely linear</li><li>Both segments (21–30, 51–60) produce predictable linear sequences</li></ul>|
 | 37             | 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 | <ul><li>Low collisions only because 37 is large relative to the key range</li><li>Hash function itself remains weak; no randomness</li></ul>|
 
@@ -150,26 +150,27 @@ Email: s1121411@mail.yzu.edu.tw
   ```
 
 ### Result Snapshot
-- Example output for integers:
+- C Version — Integer Keys
 <img width="324" height="700" alt="截圖 2025-11-23 下午3 01 54" src="https://github.com/user-attachments/assets/bfe571f6-ec92-4578-8b71-72dcd129127c" />
 <br>
 <img width="187" height="328" alt="截圖 2025-11-23 下午3 03 16" src="https://github.com/user-attachments/assets/f43eeb60-30b1-4491-bfee-6b85b77ec33a" />
-<br>
-<img width="188" height="665" alt="截圖 2025-11-23 下午3 06 05" src="https://github.com/user-attachments/assets/6385a5e5-f62f-4b33-9dea-c90ef613c4f8" />
-<br>
-<img width="187" height="327" alt="截圖 2025-11-23 下午3 06 40" src="https://github.com/user-attachments/assets/c01075a8-d259-466c-a959-41eaccbda466" />
 
-
-- Example output for strings:
-  
-=== Hash Function Observation (C Version) ===
-
-<img width="206" height="579" alt="截圖 2025-11-23 下午3 08 52" src="https://github.com/user-attachments/assets/e414b8f7-426a-4d03-a0b7-eb2b14aaccc7" />
+- C++ Version — Integer Keys
 <br>
 
-=== Hash Function Observation (C++ Version) ===
+<br>
 
-<img width="205" height="580" alt="截圖 2025-11-23 下午3 09 35" src="https://github.com/user-attachments/assets/052ca652-600a-47ce-9ad0-67ca59f09c0e" />
+
+
+- C Version — strings
+  <br>
+  === Hash Function Observation (C Version) ===
+  <img width="206" height="579" alt="截圖 2025-11-23 下午3 08 52" src="https://github.com/user-attachments/assets/e414b8f7-426a-4d03-a0b7-eb2b14aaccc7" />
+  <br>
+- C++ Version — strings
+  <br>
+  === Hash Function Observation (C++ Version) ===
+  <img width="205" height="580" alt="截圖 2025-11-23 下午3 09 35" src="https://github.com/user-attachments/assets/052ca652-600a-47ce-9ad0-67ca59f09c0e" />
 
 ## Analysis
 ### Comparison of Hash Methods
@@ -203,6 +204,38 @@ Mid-Square Method:
 - For non-integer keys, consider the hash function’s spreading ability and the key length to avoid excessive collisions.
 
 ## Reflection
-1. Designing hash functions requires balancing simplicity and effectiveness to minimize collisions.
-2. Table size significantly impacts the uniformity of the hash distribution, with prime sizes performing better.
-3. The design using a prime table size and a linear transformation formula produced the most uniform index sequence.
+### Hash Function Design
+In this experiment, I used two hash methods for integer keys—Division and Mid-Square—and the ASCII-sum method for string keys. 
+
+I observed that
+
+- **The Division method** , while simple, tends to produce linear mappings for sequential integer keys (such as 21–30 and 51–60), resulting in significant structural collisions (clustering).
+
+- **The Mid-Square method** effectively breaks sequential patterns by extracting the middle digits of the squared key as the index, producing a more uniform and less predictable distribution.
+
+- **The ASCII-sum method** for string keys works for short strings, but when the table size is small, it easily causes multiple collisions and uneven distribution.
+
+These findings helped me realize that designing a hash function requires balancing **implementation simplicity** with **collision reduction and increased randomness**.
+
+### Impact of Table Size
+The experiment results show that:
+
+- **Prime table sizes** (such as m = 11 and 37) generally produce more uniform index distributions and fewer collisions.
+
+- **Non-prime table sizes** (such as m = 10) tend to create repeating patterns and structural collisions.
+
+- Larger table sizes reduce overall collision rates, but they do not inherently improve the randomness of the hash function itself.
+
+### Improvement Ideas and Learning
+If I were to improve my design, I would consider:
+
+- Trying other nonlinear transformations for integer keys (such as multiplicative hashing) to further increase index randomness.
+
+- Using more advanced hashing for string keys to reduce the collisions caused by ASCII-sum.
+
+- Selecting different hash methods based on key type and table size to optimize overall hash table performance.
+
+## Reference
+- Mid Square Method: https://www.geeksforgeeks.org/dsa/mid-square-hashing/
+
+- ASCII-sum hashing: https://research.cs.vt.edu/AVresearch/hashing/strings.php
