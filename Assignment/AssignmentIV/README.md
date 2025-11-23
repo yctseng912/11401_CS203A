@@ -7,6 +7,18 @@ evaluate their efficiency, and understand their applications in computer science
 Developer: Yung-Chi Tseng  
 Email: s1121411@mail.yzu.edu.tw  
 
+## Environment & Requirements
+**Supported Operating System**
+- Ubuntu 24.04 (officially tested via Docker)
+- Optional: Windows 10/11, macOS (with GCC/G++ installed)
+
+**Compiler Requirements**
+- GCC 14 (C23 standard)
+- G++ 14 (C++23 standard)
+
+**Optional Tools**
+- `make` (for Makefile automation)
+
 ## My Hash Function
 ### Integer Keys 
 - Method: Mid-Square Hashing
@@ -89,7 +101,7 @@ Email: s1121411@mail.yzu.edu.tw
 |----------------|------------------------|--------------------------|
 | 10             | 2, 4, 1, 9, 3, 8, 0, 5, 0, 3 | <ul><li>Small modulus range → many collisions;</li><li>uneven distribution</li></ul>|
 | 11             | 4, 6, 3, 10, 4, 8, 3, 7, 1, 3 | <ul><li>Slight improvement, but ASCII-sum weaknesses remain → multiple collisions</li><li>weak randomness</li></ul>|
-| 10             | 16, 18, 15, 33, 27, 5, 4, 19, 24, 0 | <ul><li>No collisions, but only because the table is large</li></ul>|
+| 37             | 16, 18, 15, 33, 27, 5, 4, 19, 24, 0 | <ul><li>No collisions, but only because the table is large</li></ul>|
 
 ## Compilation, Build, Execution, and Output
 
@@ -125,11 +137,11 @@ Email: s1121411@mail.yzu.edu.tw
 ### Execution
 - Run the compiled binary:
   ```bash
-  ./hash_function
+  ./C/hash_function
   ```
   or
   ```bash
-  ./hash_function_cpp
+  ./CXX/hash_function_cpp
   ```
 
 ### Result Snapshot
