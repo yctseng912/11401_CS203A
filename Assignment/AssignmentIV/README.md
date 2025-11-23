@@ -87,6 +87,7 @@ Email: s1121411@mail.yzu.edu.tw
 | 11             | 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5| <ul><li>Better than m=10, but still purely linear</li><li>Both segments (21–30, 51–60) produce predictable linear sequences</li></ul>|
 | 37             | 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 | <ul><li>Low collisions only because 37 is large relative to the key range</li><li>Hash function itself remains weak; no randomness</li></ul>|
 
+**Summary**: Larger table sizes reduce collisions but do not improve randomness for purely linear hash functions.
 - method 2: Mid-Square
 
 | Table Size (m) | Index Sequence         | Observation              |
@@ -95,6 +96,8 @@ Email: s1121411@mail.yzu.edu.tw
 | 11             | 4, 8, 2, 7, 2, 7, 2, 8, 4, 0, 5, 4, 3, 3, 2, 2, 2, 3, 4, 5 | <ul><li>Well-dispersed and balanced</li><li>Collisions exist but unpredictable</li><li>sequential key segments uncorrelated</li></ul>|
 | 37             | 4, 8, 2, 7, 2, 7, 2, 8, 4, 0, 23, 33, 6, 17, 2, 13, 24, 36, 11, 23| <ul><li>Non-linear, very spread</li><li>Larger m enhances randomness from the mid-square operation</li></ul> |
 
+**Summary**: Mid-square produces more uniform and less predictable mapping than simple division; larger table sizes enhance spread.
+
 ### Non-integer Keys
 
 | Table Size (m) | Index Sequence         | Observation              |
@@ -102,6 +105,8 @@ Email: s1121411@mail.yzu.edu.tw
 | 10             | 2, 4, 1, 9, 3, 8, 0, 5, 0, 3 | <ul><li>Small modulus range → many collisions;</li><li>uneven distribution</li></ul>|
 | 11             | 4, 6, 3, 10, 4, 8, 3, 7, 1, 3 | <ul><li>Slight improvement, but ASCII-sum weaknesses remain → multiple collisions</li><li>weak randomness</li></ul>|
 | 37             | 16, 18, 15, 33, 27, 5, 4, 19, 24, 0 | <ul><li>No collisions, but only because the table is large</li></ul>|
+
+**Summary**: Non-integer keys hashed via ASCII-sum show high collision rates with small table sizes; larger m reduces collisions but does not fundamentally solve unevenness.
 
 ## Compilation, Build, Execution, and Output
 
@@ -146,97 +151,56 @@ Email: s1121411@mail.yzu.edu.tw
 
 ### Result Snapshot
 - Example output for integers:
-  ```
-  === Hash Function Observation (C Version) ===
+<img width="324" height="700" alt="截圖 2025-11-23 下午3 01 54" src="https://github.com/user-attachments/assets/bfe571f6-ec92-4578-8b71-72dcd129127c" />
+<br>
+<img width="187" height="328" alt="截圖 2025-11-23 下午3 03 16" src="https://github.com/user-attachments/assets/f43eeb60-30b1-4491-bfee-6b85b77ec33a" />
+<br>
+<img width="188" height="665" alt="截圖 2025-11-23 下午3 06 05" src="https://github.com/user-attachments/assets/6385a5e5-f62f-4b33-9dea-c90ef613c4f8" />
+<br>
+<img width="187" height="327" alt="截圖 2025-11-23 下午3 06 40" src="https://github.com/user-attachments/assets/c01075a8-d259-466c-a959-41eaccbda466" />
 
-  === Table Size m = 10 ===
-  Key     Index
-  -----------------
-  21      1
-  22      2
-  ...
-
-  === Table Size m = 11 ===
-  Key     Index
-  -----------------
-  21      10
-  22      0
-  ...
-
-  === Table Size m = 37 ===
-  Key     Index
-  -----------------
-  21      21
-  22      22
-  ...
-
-  === Hash Function Observation (C++ Version) ===
-
-  === Table Size m = 10 ===
-  Key     Index
-  -----------------
-  21      1
-  22      2
-  ...
-
-  === Table Size m = 11 ===
-  Key     Index
-  -----------------
-  21      10
-  22      0
-  ...
-
-  === Table Size m = 37 ===
-  Key     Index
-  -----------------
-  21      21
-  22      22
-  ...
-  ```
 
 - Example output for strings:
-  ```
-  === String Hash (m = 10) ===
-  Key     Index
-  -----------------
-  cat     0
-  dog     0
-  ...
+  
+=== Hash Function Observation (C Version) ===
 
-  === String Hash (m = 11) ===
-  Key     Index
-  -----------------
-  cat     0
-  dog     0
-  ...
+<img width="206" height="579" alt="截圖 2025-11-23 下午3 08 52" src="https://github.com/user-attachments/assets/e414b8f7-426a-4d03-a0b7-eb2b14aaccc7" />
+<br>
 
-  === String Hash (m = 37) ===
-  Key     Index
-  -----------------
-  cat     0
-  dog     0
-  ...
-  ```
+=== Hash Function Observation (C++ Version) ===
 
-- Observations: Outputs align with the analysis, showing better distribution with prime table sizes.
-- Example output for integers:
-  ```
-  Hash table (m=10): [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
-  Hash table (m=11): [10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-  Hash table (m=37): [20, 21, 22, 23, 24, 25, 26, 27, 28, 29, ...]
-  ```
-- Example output for strings:
-  ```
-  Hash table (m=10): ["cat", "dog", "bat", "cow", "ant", ...]
-  Hash table (m=11): ["fox", "cat", "dog", "bat", "cow", ...]
-  Hash table (m=37): ["bee", "hen", "pig", "fox", "cat", ...]
-  ```
-- Observations: Outputs align with the analysis, showing better distribution with prime table sizes.
+<img width="205" height="580" alt="截圖 2025-11-23 下午3 09 35" src="https://github.com/user-attachments/assets/052ca652-600a-47ce-9ad0-67ca59f09c0e" />
 
 ## Analysis
-- Prime vs non-prime `m`: Prime table sizes generally result in better distribution and fewer collisions.
-- Patterns or collisions: Non-prime table sizes tend to produce repetitive patterns, leading to more collisions.
-- Improvements: Use a prime table size and a well-designed hash function to enhance distribution.
+### Comparison of Hash Methods
+
+Division Method:
+
+- The distribution is linear and prone to forming clusters, especially for sequential keys (e.g., 21–30 and 51–60).
+- A large table size (m) can reduce the number of collisions, but its effect on randomness is limited.
+
+Mid-Square Method:
+
+- The distribution is nonlinear, better at scattering sequential keys.
+- Collisions exist but are non-structural; as the table size increases, the spread improves.
+
+### Impact of Table Size (m)
+
+- Prime table sizes (e.g., 11, 37) help achieve a more uniform distribution.
+- Non-prime table sizes can lead to predictable patterns and more collisions.
+- Larger table sizes reduce collisions, but non-random methods may still exhibit regular patterns.
+
+### Non-Integer Keys (ASCII-Sum)
+
+- Small table sizes result in high collisions and uneven distribution.
+- Large table sizes can reduce collisions, but the method itself offers limited randomness.
+- Combining with other hashing methods (e.g., polynomial rolling hash) can improve distribution.
+
+### Design Insights
+
+- The mid-square method is simple but can increase randomness, suitable for numeric keys.
+- Choosing a prime table size yields the best results.
+- For non-integer keys, consider the hash function’s spreading ability and the key length to avoid excessive collisions.
 
 ## Reflection
 1. Designing hash functions requires balancing simplicity and effectiveness to minimize collisions.
