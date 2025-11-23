@@ -151,14 +151,16 @@ Email: s1121411@mail.yzu.edu.tw
 
 ### Result Snapshot
 - C Version — Integer Keys
-<img width="324" height="700" alt="截圖 2025-11-23 下午3 01 54" src="https://github.com/user-attachments/assets/bfe571f6-ec92-4578-8b71-72dcd129127c" />
-<br>
-<img width="187" height="328" alt="截圖 2025-11-23 下午3 03 16" src="https://github.com/user-attachments/assets/f43eeb60-30b1-4491-bfee-6b85b77ec33a" />
+
+  <img width="324" height="700" alt="截圖 2025-11-23 下午3 01 54" src="https://github.com/user-attachments/assets/bfe571f6-ec92-4578-8b71-72dcd129127c" />
+  <br>
+  <img width="187" height="328" alt="截圖 2025-11-23 下午3 03 16" src="https://github.com/user-attachments/assets/f43eeb60-30b1-4491-bfee-6b85b77ec33a" />
 
 - C++ Version — Integer Keys
-<br>
-
-<br>
+  <br>
+  <img width="338" height="689" alt="截圖 2025-11-23 晚上8 26 31" src="https://github.com/user-attachments/assets/ec87cd2c-92f6-49de-bfb7-fdc436cc60ac" />
+  <br>
+  <img width="185" height="327" alt="截圖 2025-11-23 晚上8 28 23" src="https://github.com/user-attachments/assets/ee720469-e996-4e75-a3ce-6273d66b3cf2" />
 
 - C Version — strings
   <br>
