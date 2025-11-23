@@ -28,26 +28,11 @@ int myHashInt(int key, int m) {
         throw invalid_argument("Hash table size m must be positive.");
     }
 
-    //method 2: Advance - Mid Square Method 
-    //Square the value of the key
-    long long squareKey = key * key;
-  
-    //Calculate the number of digits in a square.
-    int numDigits = 0;  
-    long long temp = squareKey;
-    while (temp > 0) {
-        temp /= 10;
-        numDigits++;
-    }
+    //method 1: Basic - Division Method (Formula: h(k) = k mod m)
+    int hashValue = key % m;
+    if(hashValue < 0) hashValue += m;
 
-    //Extract the middle digits as the value
-    string s = to_string(squareKey);
-    if (s.length() <= 2)  return squareKey % m;
-    string mid = s.substr(1, s.length() - 2);
-    long long midNum = stoll(mid);
-
-    return midNum % m;
-    
+    return key % m;  // basic division method
 }
 
 int myHashString(const std::string& str, int m) {

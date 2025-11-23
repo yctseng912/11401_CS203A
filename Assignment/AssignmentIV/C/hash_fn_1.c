@@ -14,7 +14,7 @@
     - 2025/11/18: Initial implementation of myHashInt(), myHashString()
                   Add Fool-proof
     - 2025/11/23: Fix the logical error in myHashInt()
-                  Refactor method 1 into a separate source file.
+    - 2025/11/23: Refactor method 1 into a separate source file.
 
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */
@@ -23,29 +23,12 @@
 
 int myHashInt(int key, int m) {
     if (m <= 0) return -1; // invalid table size
-
-    //method 2: Advance - Mid Square Method
-    long long squareKey = (long long)key * (long long)key;
-
-    // Count digits
-    char buffer[32];
-    sprintf(buffer, "%lld", squareKey);
-
-    int len = strlen(buffer);
-
-    if (len <= 2)    return squareKey % m;
-
-    // Extract middle digits (same as substr(1, len-2))
-    char mid[32];
-    int midLen = len - 2;
-
-    for (int i = 0; i < midLen; i++) {
-    mid[i] = buffer[i + 1];
-}
-    mid[midLen] = '\0';
-    long long midNum = atoll(mid);
-
-    return midNum % m;
+    
+    // method 1
+    int hv = key % m;   
+    if (hv < 0) hv += m; // make hv be positive
+        
+    return key % m;  // division method example
 }
 
 int myHashString(const char* str, int m) {
