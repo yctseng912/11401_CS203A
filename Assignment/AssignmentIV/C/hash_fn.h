@@ -9,6 +9,7 @@
    Development History:
     - 2025/11/17: Initial implementation from prof. Huang
                   Update developer information
+    - 2025/11/23: Add headfile <stdlib.h>
 
    Developer: Yung-Chi Tseng <a1121411@mail.yzu.edu.tw>
  */
@@ -17,6 +18,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>   // for atoll
 
 int myHashString(const char* str, int m);
 int myHashInt(int key, int m);

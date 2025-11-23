@@ -13,17 +13,19 @@
                   Initial implement of myHashString()
     - 2025/11/18: Refactored to use hash_fn.hpp
                   Add Fool-proof
+    - 2025/11/23: Add headfile for exception
    
 
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */
 #include "hash_fn.hpp"
+#include <stdexcept>
 using namespace std;
 
 int myHashInt(int key, int m) {
 
     if (m <= 0) {
-        throw std::invalid_argument("Hash table size m must be positive.");
+        throw invalid_argument("Hash table size m must be positive.");
     }
 
     /*

@@ -13,6 +13,7 @@
                   Update developer information
     - 2025/11/18: Initial implementation of myHashInt(), myHashString()
                   Add Fool-proof
+    - 2025/11/23: Fix the logical error in myHashInt()
 
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */
@@ -34,22 +35,22 @@ int myHashInt(int key, int m) {
     long long squareKey = (long long)key * (long long)key;
 
     // Count digits
-    long long temp = squareKey;
-    int numDigits = 0;
-    while (temp > 0) {
-        temp /= 10;
-        numDigits++;
-    }
+    char buffer[32];
+    sprintf(buffer, "%lld", squareKey);
 
-    if (numDigits <= 2)
-        return squareKey % m;
+    int len = strlen(buffer);
+
+    if (len <= 2)    return squareKey % m;
 
     // Extract middle digits (same as substr(1, len-2))
-    // Remove left digits
-    long long shifted = squareKey / 10;
+    char mid[32];
+    int midLen = len - 2;
 
-    // Take mid digits: shifted % 10
-    long long midNum = squareKey % 10;
+    for (int i = 0; i < midLen; i++) {
+    mid[i] = buffer[i + 1];
+}
+    mid[midLen] = '\0';
+    long long midNum = atoll(mid);
 
     return midNum % m;
 }
