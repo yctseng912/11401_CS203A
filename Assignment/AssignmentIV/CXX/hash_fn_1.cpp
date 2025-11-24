@@ -14,8 +14,9 @@
     - 2025/11/18: Refactored to use hash_fn.hpp
                   Add Fool-proof
     - 2025/11/23: Add headfile for exception
-                  Refactor method 1 into a separate source file.
-   
+                  Refactor division method into a separate source file - hash_fn_1.cpp.
+    - 2025/11/24: Marked as final version
+
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */
 #include "hash_fn.hpp"

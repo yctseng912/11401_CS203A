@@ -11,7 +11,10 @@
    Development History:
     - 2025/11/11: Initial implementation
     - 2025/11/17: Update name and email of the developer
-    - 2025/11/18: Update the include filename
+    - 2025/11/18: Correct the include filename
+    - 2025/11/24: Rename 'update' to 'correct' in the history record
+    - 2025/11/24: Marked as final version.
+
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */
 

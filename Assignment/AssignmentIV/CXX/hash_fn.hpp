@@ -9,6 +9,7 @@
    Development History:
     - 2025/11/17: Initial implementation from prof. Huang
     - 2025/11/18: Update developer information
+    - 2025/11/24: Marked as final version.
 
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */

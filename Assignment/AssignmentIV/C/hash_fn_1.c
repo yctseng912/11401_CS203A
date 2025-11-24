@@ -14,7 +14,8 @@
     - 2025/11/18: Initial implementation of myHashInt(), myHashString()
                   Add Fool-proof
     - 2025/11/23: Fix the logical error in myHashInt()
-    - 2025/11/23: Refactor method 1 into a separate source file.
+                  Refactor division method into a separate source file - hash_fn_1.c.
+    - 2025/11/24: Marked as final version
 
    Developer: Yung-Chi Tseng <s1121411@mail.yzu.edu.tw>
  */
