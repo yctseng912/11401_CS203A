@@ -79,16 +79,16 @@ Email: s1121411@mail.yzu.edu.tw
 
 ## Results
 ### Integer Keys
-- method 1: Division
+- method 1: Division Method
   
 | Table Size (m) | Index Sequence         | Observation              |
 |----------------|------------------------|--------------------------|
 | 10             | 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0 | <ul><li>Linear mapping</li><li>21–30 & 51–60 collide into same buckets → huge clustering</li><li>bad for sequential keys</li></ul> |
 | 11             | 10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 7, 8, 9, 10, 0, 1, 2, 3, 4, 5| <ul><li>Better than m=10, but still purely linear</li><li>Both segments (21–30, 51–60) produce predictable linear sequences</li></ul>|
-| 37             | 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 | <ul><li>Low collisions only because 37 is large relative to the key range</li><li>Hash function itself remains weak; no randomness</li></ul>|
+| 37             | 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23 | <ul><li>Low collisions only because 37 is large relative to the key range</li><li>Hash function itself remains weak</li><li>no randomness</li></ul>|
 
 **Summary**: Larger table sizes reduce collisions but do not improve randomness for purely linear hash functions.
-- method 2: Mid-Square
+- method 2: Mid-Square Method
 
 | Table Size (m) | Index Sequence         | Observation              |
 |----------------|------------------------|--------------------------|
@@ -96,13 +96,13 @@ Email: s1121411@mail.yzu.edu.tw
 | 11             | 4, 8, 2, 7, 2, 7, 2, 8, 4, 0, 5, 4, 3, 3, 2, 2, 2, 3, 4, 5 | <ul><li>Well-dispersed and balanced</li><li>Collisions exist but unpredictable</li><li>sequential key segments uncorrelated</li></ul>|
 | 37             | 4, 8, 2, 7, 2, 7, 2, 8, 4, 0, 23, 33, 6, 17, 2, 13, 24, 36, 11, 23| <ul><li>Non-linear, very spread</li><li>Larger m enhances randomness from the mid-square operation</li></ul> |
 
-**Summary**: Mid-square produces more uniform and less predictable mapping than simple division; larger table sizes enhance spread.
+**Summary**: Mid-square method produces more uniform and less predictable mapping than simple division; larger table sizes enhance spread.
 
 ### Non-integer Keys
 
 | Table Size (m) | Index Sequence         | Observation              |
 |----------------|------------------------|--------------------------|
-| 10             | 2, 4, 1, 9, 3, 8, 0, 5, 0, 3 | <ul><li>Small modulus range → many collisions;</li><li>uneven distribution</li></ul>|
+| 10             | 2, 4, 1, 9, 3, 8, 0, 5, 0, 3 | <ul><li>Small modulus range → many collisions</li><li>uneven distribution</li></ul>|
 | 11             | 4, 6, 3, 10, 4, 8, 3, 7, 1, 3 | <ul><li>Slight improvement, but ASCII-sum weaknesses remain → multiple collisions</li><li>weak randomness</li></ul>|
 | 37             | 16, 18, 15, 33, 27, 5, 4, 19, 24, 0 | <ul><li>No collisions, but only because the table is large</li></ul>|
 
@@ -140,13 +140,22 @@ Email: s1121411@mail.yzu.edu.tw
   ```
 
 ### Execution
-- Run the compiled binary:
+- Run the final version of the hash function program:
   ```bash
   ./C/hash_function
   ```
   or
   ```bash
   ./CXX/hash_function_cpp
+  ```
+
+- For comparing different integer hash function methods:
+```bash
+  ./C/hash_function_1
+  ```
+  or
+  ```bash
+  ./CXX/hash_function_cpp_1
   ```
 
 ### Result Snapshot
