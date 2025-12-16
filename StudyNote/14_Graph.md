@@ -72,57 +72,36 @@
 | **添加邊** (Add edge) | $O(1)$ |
 | **遍歷 BFS/DFS** | $O(V^2)$ |
 | **優點** (Pros) | <ul><li>實作簡單 </li><li>適用於**稠密圖** (Dense graphs) </li><li>需要**快速邊查詢**的演算法（如 Floyd-Warshall）</ul>|
+| **缺點**  (Cons) |<ul><li>空間浪費 (特別是稀疏圖 Sparse graphs) </li><li>獲取鄰居需要掃描整行 $O(V)$ </li></ul>|
 
-的演算法（如 Fl**稀疏圖** Sparse graphs) ；獲取鄰居需要掃描整行 (O(V)) 
-
- |
-
-###2. 鄰接串列 (Adjacency List)* 
-**結構**: 每個頂點只儲存其**鄰居**（Neighbors）的串列 。
-
+### 2. 鄰接串列 (Adjacency List)
+* **結構**: 每個頂點只儲存其**鄰居**（Neighbors）的串列 。
 
 * **儲存內容**: 透過陣列搭配鏈結串列或動態陣列來儲存。
 
-| Feature | Adjacency List 
-
- |
+| Feature | Adjacency List |
 | --- | --- |
-| **空間複雜度** (Space) | <br>O(V+E) 
+| **空間複雜度** (Space) | $O(V+E)$ |
+| **邊查詢** (Edge lookup) | $O(\text{deg}(v))$ (需要掃描頂點 v 的鄰接串列) |
+| **添加邊** (Add edge) | $O(1)$ |
+| **遍歷 BFS/DFS** | $O(V+E)$ |
+| **優點** (Pros) | <ul><li>適用於**稀疏圖** (Sparse graphs)</li><li>鄰居存取快速 $(O(\text{deg}(v)))$ </li><li>適合大多數圖演算法（如 BFS/DFS、Dijkstra、Prim、Kruskal）</li></ul> |
+| **缺點** (Cons) | <ul><li>實作較複雜</li><li>邊查詢較慢 $(O(\text{deg}(u)))$</li></ul> |
 
- |
-| **邊查詢** (Edge lookup) | <br>O(\text{deg}(v)) (需要掃描頂點 v 的鄰接串列) 
+## 圖的遍歷 (Graph Traversal / Graph Search)
+圖的遍歷（Graph Traversal）是系統性地探索圖中所有節點的過程 。與樹遍歷相似，但必須處理圖的獨特挑戰 。
 
- |
-| **添加邊** (Add edge) | <br>O(1) 
+### 關鍵差異：需要 $\text{visited}[]$
+圖可能存在**迴圈**和**多重路徑**，為了防止無限迴圈或重複訪問，圖遍歷**必須**追蹤已訪問的節點 。
 
- |
-| **遍歷 BFS/DFS** | <br>O(V+E) 
-
- |
-| **優點** (Pros) | 適用於**稀疏圖** (Sparse graphs) ；鄰居存取快速 (O(\text{deg}(v))) ；適合大多數圖演算法（如 BFS/DFS、Dijkstra、Prim、Kruskal） 
-
- |
-| **缺點** (Cons) | 實作較複雜 ；邊查詢較慢 (O(\text{deg}(u))) 
-
- |
-
-##🔎 圖的遍歷 (Graph Traversal / Graph Search)圖的遍歷（Graph Traversal）是系統性地探索圖中所有節點的過程 。與樹遍歷相似，但必須處理圖的獨特挑戰 。
-
-###關鍵差異：需要 \text{visited}[]圖可能存在**迴圈**和**多重路徑**，為了防止無限迴圈或重複訪問，圖遍歷**必須**追蹤已訪問的節點 。
-
-###1. 廣度優先搜索 (BFS: Breadth-First Search)* 
+### 1. 廣度優先搜索 (BFS: Breadth-First Search)* 
 **原理**: 類似於樹的**層序遍歷** (Level-order traversal) 。它以一層一層的方式系統性地探索節點。
 
+* **資料結構**: 使用**佇列** (Queue)（先進先出，FIFO）來確保按層次順序訪問 。
 
-* 
-**資料結構**: 使用**佇列** (Queue)（先進先出，FIFO）來確保按層次順序訪問 。
+* **演算法基礎**:
 
-
-* 
-**演算法基礎**:
-
-
-1. 初始化空**佇列**和空 \text{visited} 集合。
+1. 初始化空**佇列**和空 $\text{visited}$ 集合。
 2. 將起始頂點入隊。
 3. 當佇列非空時，出隊頂點 v。
 4. 如果 v 未被訪問，標記 v 為已訪問並將其所有未訪問的鄰居**入隊**。
@@ -130,26 +109,17 @@
 
 * **用途**: 用於尋找**最短路徑**（在無權圖中）。
 
-###2. 深度優先搜索 (DFS: Depth-First Search)* 
-**原理**: 類似於樹的**前序遍歷** (Preorder traversal) 。它沿著一條路徑深入探索，直到到達盡頭再回溯 (Backtracking) 。
+### 2. 深度優先搜索 (DFS: Depth-First Search)
 
+* **原理**: 類似於樹的**前序遍歷** (Preorder traversal) 。它沿著一條路徑深入探索，直到到達盡頭再回溯 (Backtracking) 。
 
-* 
-**資料結構**: 使用**堆疊** (Stack)（後進先出，LIFO）來記住探索路徑和回溯點 。
+* **資料結構**: 使用**堆疊** (Stack)（後進先出，LIFO）來記住探索路徑和回溯點 。
 
+* **演算法基礎**:
 
-* 
-**演算法基礎**:
-
-
-1. 初始化空**堆疊**和空 \text{visited} 集合。
+1. 初始化空**堆疊**和空 $\text{visited}$ 集合。
 2. 將起始頂點推入堆疊。
 3. 當堆疊非空時，彈出頂點 v。
 4. 如果 v 未被訪問，標記 v 為已訪問並將其所有未訪問的鄰居**推入堆疊**。
 
-
 * **用途**: 用於拓撲排序、尋找連通分量、尋找迴路。
-
----
-
-這份筆記涵蓋了圖的定義、類型、表示法和兩種主要的遍歷演算法。您對圖的哪一個部分想進一步了解呢？
