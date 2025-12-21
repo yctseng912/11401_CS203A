@@ -1,73 +1,57 @@
 # Hashing
 ---
+## 一、 核心架構圖
 ```
 Hash Table
 │
-├── Hash Function
-│   ├── Division
-│   ├── Mid-Square
-│   └── Folding
+├── Hash Function (雜湊函式) 
+│   ├── Division (除法取餘數) 
+│   ├── Mid-Square (平方取中法) 
+│   └── Folding (摺疊法) 
 │
-├── Collision
-│   ├── Chaining
-│   └── Open Addressing
-│       ├── Linear (Primary Clustering)
-│       ├── Quadratic (Secondary Clustering)
-│       └── Double Hashing (Best)
+├── Collision Handling (衝突處理) 
+│   ├── Chaining (拉鏈法/鏈結法) 
+│   └── Open Addressing (開放定址法) 
+│       ├── Linear Probing (線性探測) 
+│       ├── Quadratic Probing (平方探測) 
+│       └── Double Hashing (雙重雜湊)
 │
-├── Table Size
-│   ├── Prime number
-│   └── Power of 2
+├── Table Management
+│   ├── Static Hashing (靜態雜湊)
+│   └── Dynamic Hashing (動態雜湊：自動擴展/縮小)
 │
-├── Performance
-│   ├── Avg: O(1)
-│   └── Worst: O(n)
+├── Performance (效能)
+│   ├── Average: O(1) 
+│   └── Worst: O(n) 
 │
-└── Dictionary ADT Implementation
-
+└── Dictionary ADT Implementation (字典實作)
 ```
 ---
-## Definition
-Hashing: 一種使用「hash function」將 key 轉換成整數 index，
-再把 key-value pair 存放在 hash table（通常是 array）中的技術
+## 二、基本定義與目標
+* **定義**: Hashing 一種使用「hash function」將 key 轉換成整數 index，並將 key-value pair 存放在 hash table（通常是 array）中的技術
+* **目標**: 在不需搜尋全部元素的情況下，透過 Key 快速找到對應資料，實現平均常數時間的搜尋
+  * 加速 search, insert, delete, etc. operators
+  * 讓 average time complexity = O(1)
 
-- 主要用途：
-  - 加速 search, insert, delete, etc. operators
-  - 讓 average time complexity = O(1)
-
-| Concept                   | Description                                  | 
-| ------------------------- | -------------------------------------------- | 
-| Goal                      | 在不經過搜尋全部element的情況下，透過key快速找資料  |
-| Key-Value Mapping         | Key → Hash Function → Index → Value          | 
-| Hash Function             | 透過數學計算將Key轉換成記憶體中的位置（array index)|
-
-
-## What problem does it solve?
-在大量資料中快速找到所需項目，而不用從頭搜尋所有元素（O(n)）
-
-- comparison
+* **與其他查找資料的方法比較時間複雜度**
   - binary search tree：O(log n)
   - sorted binary search：O(log n)
   - Hash table：average O(1)
  
-## Dictionary ADT 與 Hash Table 的關係
+## 三、Dictionary ADT
 Hash Table 是 Dictionary 的一種實作方式
+* **定義**: 一組 `<Keym Value>`的集合，其中 Key 通常是唯一的
 
-### Dictionary ADT
-存放 key-value pairs，可允許:
-1. 所有 keys 不重複
-2. keys 可重複（但一般 hash table 假設 key 唯一）
+* **主要操作**:
+  - Create(m): 建立一個擁有 $m$ 個桶（Buckets）的空 Hash table
+  - IsEmpty(d)
+  - Search(h, k)：回傳 Key 是否存在於表中
+  - Retrieve(h, k)：搜尋對應桶中的 Key 並回傳 Value，若無則報錯
+  - Insert(h, k, v): 計算 $i = h(k) \pmod m$，若 Key 已存在則更新其值，否則加入桶中；若超過 MAX_LOAD_FACTOR 則需進行 Resize 。
+  - Delete(h, k)：從桶中移除指定的 <Key, Value> 對
  
-### Dictionary ADT Operatioin
-- Create(max_size)
-- IsEmpty(d)
-- Search(d, k)
-- Insert(d, item, k)
-- Delete(d, k)
-- Traverse(d)
-
-## Hash Table 基本結構
-### Underlying structure
+## 四、Hash Table 基本結構
+### 底層結構
 - Array：儲存 buckets
 - Chaining（常用）：每個 bucket 裝一個 linked list（或其他 DS）
 - Open addressing（另一種方法）：整個表不用 linked list，只用 array probe
@@ -89,8 +73,8 @@ Hash Table 是 Dictionary 的一種實作方式
 | Implementation    | Simple                       | Complex (directory or pointer-based) |
 | Best Use Case     | Small, fixed datasets        | Large or growing datasets            |
 
-## Hash Function
-### 好的 hash function 必備特性:
+## 五、Hash Function
+好的 hash function 必備以下特性:
 1. Deterministic (確定性)：相同 key → 相同輸出
 2. Uniform(diverse)：keys 均勻分散
 3. Fast：計算快
@@ -108,51 +92,39 @@ Hash Table 是 Dictionary 的一種實作方式
 3. Folding Method
 - key 切成數段加總
 
-## Collision
-```
-h(15) = 3 → bucket[3] → [15]
-h(23) = 3 → bucket[3] → [15 -> 23]
-h(7) = 3 → bucket[3] → [15 -> 23 -> 7]
-```
-| Scenario         | Straregy           | Description                      |
-| ---------------- | ------------------ | -------------------------------- |
-| Ideal Case       | One-to-one mapping | 每個value對應唯一的key，確保完美配對  |
-| Collision Case   | Collision handling | 多個不同value對應同個key            |
-
-- Collision = 不同 keys 得到相同 hash address
-- Collision 不可避免，只能降低頻率與有效處理
+## 六、Collision Handling
+當不同 Key 經計算後得到相同索引時，即發生 Collision。Collision 不可避免，只能降低頻率與有效處理
 
 ### Collision Handling Strategies
 
 A. Chaining(最常見）
 - 每個 bucket 一條 linked list
-- 簡單、容錯高
-- 平均時間：O(1 + α)
+- 簡單、容錯高，發生衝突時，將新節點加入該索引對應的鏈結中
+- 平均時間複雜度：O(1 + α)
 
 <img width="470" height="269" alt="截圖 2025-12-01 晚上7 21 47" src="https://github.com/user-attachments/assets/b8167e76-329a-49c4-a4aa-dc1d8faf10bb" />
 
 
-B. Open Addressing（只用 array） → 碰撞時 probe 找下一個位置
+B. Open Addressing（只用 array） 
+當發生衝突時，依特定規則搜尋下一個可用索引 。
 
-1. Linear Probing
+1. **Linear Probing**：依序檢查下一個位置，容易造成 Primary Clustering （跑出一大條連續區塊）
 ```
 h(k, i) = (h(k) + i) mod m
 ```
-- 缺點：Primary Clustering（跑出一大條連續區塊）
 
 <img width="491" height="194" alt="截圖 2025-12-01 晚上7 23 32" src="https://github.com/user-attachments/assets/de373823-623b-464b-a509-da26f3f910da" />
 
 
-2. Quadratic Probing
+2. **Quadratic Probing**：以平方間距探測，避免原始叢集但仍有 Secondary Clustering 
 ```
 h(k, i) = h(k) + c1*i + c2*i^2
 ```
-- 避免 primary clustering，但仍有 Secondary Clustering
 
 <img width="480" height="217" alt="截圖 2025-12-01 晚上7 25 15" src="https://github.com/user-attachments/assets/4b10bbf3-1f99-459c-9167-f10392f27aa5" />
 
 
-3. Double Hashing（最佳 open addressing）
+3. **Double Hashing**（最佳 open addressing）：使用第二個雜湊函式決定探測步長
 ```
 h(k, i) = h1(k) + i * h2(k)
 ```
@@ -169,14 +141,14 @@ h(k, i) = h1(k) + i * h2(k)
 | **Secondary Clustering** | 同 h(k) → 相同固定探查序列 | 多個分散但固定的小型聚集點 | **Quadratic probing** |
 
  
-## Probing 的特性
+## 七、Probing 的特性
 
 - Deterministic：同 key → 同 sequence
 - Bounded：最多 m 個位置
 - Load factor sensitive：α 越高 → 探查變慢
 - Clustering：linear & quadratic 的常見問題
 
-## Table Size (m)
+## 八、Table Size (m)
 ### Traditional: Prime number
 - 對差的 hash function 比較有保護力
 - 減少 pattern 與 clustering
@@ -185,7 +157,7 @@ h(k, i) = h1(k) + i * h2(k)
 - AND 位元運算比 mod 快很多
 - 缺點：若低位元分布不好會造成集中碰撞
 
-## Performance (time complexity)
+## 九、Performance (time complexity)
 | Operation | Avg  | Worst |
 | --------- | ---- | ----- |
 | Search    | O(1) | O(n)  |
@@ -197,7 +169,7 @@ h(k, i) = h1(k) + i * h2(k)
   - clustering
   - hash function 分布不均
  
-## Pros / Cons
+## 十、Pros / Cons
 ### Pros
 - 非常快（平均 O(1)）
 - 適合快速查找
@@ -208,7 +180,8 @@ h(k, i) = h1(k) + i * h2(k)
 - 不適合 range queries
 - 需要良好 hash function
 - dynamic resizing（rehash）成本高
-
+  
+---
 ## Use Cases
 - Dictionary（字典查詢）
 - Cache / symbol table / compiler lookup
