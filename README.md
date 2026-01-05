@@ -26,7 +26,7 @@ See the [Assignment folder](./Assignment/) for details and related files.
 ## Quizzes
 This section contains my quiz solutions and related materials from the course.  
 The quizzes focus on understanding key concepts through short-answer questions, problem-solving, and coding tasks.  
-Check the Quiz folder](./Quiz/) for more information.
+Check the [Quiz folder](./Quiz/) for more information.
 
 ## Study Notes
 This section contains my personal study notes for the course.  
