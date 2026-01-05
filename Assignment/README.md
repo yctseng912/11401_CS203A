@@ -4,8 +4,10 @@ Welcome! This repository hosts the homework for CS203A (Data Structures).
 ## Assignments Overview
 ### Assignment I: Build My Own GitHub Repository
 - [Read details](./AssignmentI/Assignment_I.pdf)
-- Create a GitHub account and the course repo 11401_CS203A [repo](https://github.com/yctseng912/11401_CS203A/).
-- Enable GitHub Pages at https://{username}.github.io/. [myPage](https://yctseng912.github.io/)
+- Create a GitHub account and the course repo 11401_CS203A
+  - [myRepo](https://github.com/yctseng912/11401_CS203A/).
+- Enable GitHub Pages at https://{username}.github.io/.
+  - [myPage](https://yctseng912.github.io/)
 - Add a meaningful README.md (name, student ID, course, brief description).
 - (Optional) Link a personal domain / add docs via ReadTheDocs.
 
