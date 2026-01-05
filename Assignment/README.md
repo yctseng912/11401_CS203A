@@ -24,4 +24,3 @@ Welcome! This repository hosts the homework for CS203A (Data Structures).
 
 ### Assignment V: Tree
 - [Read details](./AssignmentV/Assignment_V.pdf)
-- [Download the word version to complete your work](./AssignmentV/Assignment_V.docx)
